@@ -8,7 +8,9 @@ public class Count
 {
 	
 	//Change the datasetPath
-	private static final String datasetPath = "/home/sarhad/Projects/utek/2a/2a.in";
+	
+	
+	//private static final String datasetPath = "/home/sarhad/Projects/utek/2a/2a.in";
 	
 	
 	private static int count = 0;
@@ -19,7 +21,9 @@ public class Count
 	{
 		try
 		{
-			readFile(datasetPath);
+			
+			readFile(args[0]);
+			readFile(args[1]);
 			
 			
 		} catch( FileNotFoundException e )

@@ -13,7 +13,7 @@ public class SecondTest
 		Count c = new Count();
 		for(int i=0; i<key.length(); i++)
 		{
-			keyCombo.add(key.substring(1,i+1));
+			keyCombo.add(key.substring(0,i+1));
 		}
 		System.out.println(keyCombo);
 	}
