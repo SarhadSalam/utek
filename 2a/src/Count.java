@@ -8,25 +8,19 @@ public class Count
 {
 	
 	//Change the datasetPath
-//	private static final String datasetPath = "/home/sarhad/Projects/utek/train.txt";
+	private static final String datasetPath = "/home/sarhad/Projects/utek/2a/2a.in";
 	
-	private static ArrayList<String> list = new ArrayList<>();
+	
 	private static int count = 0;
 	private static boolean keyWatcher=false;
-	private static String key;
+	public static String key;
 	
 	public static void main(String[] args)
 	{
 		try
 		{
-			readFile(args[0]);
+			readFile(datasetPath);
 			
-			for( String aList : list )
-			{
-				countKeys(aList, key);
-			}
-			
-			System.out.println(list);
 			
 		} catch( FileNotFoundException e )
 		{
@@ -38,15 +32,35 @@ public class Count
 	private static void readFile(String datasetPath) throws FileNotFoundException
 	{
 		Scanner x = new Scanner(new File(datasetPath));
-		while( x.hasNext() )
+		ArrayList<String> list = new ArrayList<>();
+		
+		while( x.hasNextLine() )
 		{
-			String a = x.next();
-			processData(a);
+			String a = x.nextLine();
+			list = getCountOfLine(list, a);
 		}
 	}
 	
+	private static ArrayList<String> getCountOfLine(ArrayList<String> list, String a)
+	{
+		for(int i=0; i<a.split(" ").length; i++)
+		{
+			list = processData(a.split(" ")[i], list);
+		}
+		for(String s: list)
+		{
+			countKeys(s,key);
+		}
+		key=null;
+		keyWatcher=false;
+		list = new ArrayList<>();
+		System.out.println(count);
+		count=0;
+		return list;
+	}
+	
 	//The below just processes the data.
-	private static void processData(String s)
+	private static ArrayList<String> processData(String s, ArrayList<String> list)
 	{
 		//Process Data. Remove <unk> N non-characters, convert to uppercase. Store data
 		
@@ -76,6 +90,7 @@ public class Count
 			s = s.toUpperCase();
 			key=s;
 		}
+		return list;
 	}
 	
 	private static void countKeys(String data, String key)
@@ -107,6 +122,7 @@ public class Count
 				}
 			}
 		}
+		
 		
 	}
 }
