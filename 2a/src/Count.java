@@ -12,13 +12,14 @@ public class Count
 	
 	private static ArrayList<String> list = new ArrayList<>();
 	private static int count = 0;
+	private static boolean keyWatcher=false;
+	private static String key;
 	
 	public static void main(String[] args)
 	{
 		try
 		{
 			readFile(args[0]);
-			String key = "OR";
 			
 			for( String aList : list )
 			{
@@ -51,17 +52,30 @@ public class Count
 		
 		//the below regex removes characters and numbers
 		
-		s = s.replaceAll("[^\\dA-Za-z ]", "").replaceAll("\\s+", "").replaceAll("([0-9]+)", "");
-		s = s.replaceAll("\\s*\\bN\\b\\s*", "");
-		s = s.replaceAll("\\s*\\bunk\\b\\s*", "");
-		s = s.toUpperCase();
-		if( !s.isEmpty() )
+		if(s.equals("|"))
 		{
-			String S[] = s.split(" ");
-			list.addAll(Arrays.asList(S));
+			keyWatcher = true;
 		}
-		
-		
+		if(!keyWatcher)
+		{
+			s = s.replaceAll("[^\\dA-Za-z ]", "").replaceAll("\\s+", "").replaceAll("([0-9]+)", "");
+			s = s.replaceAll("\\s*\\bN\\b\\s*", "");
+			s = s.replaceAll("\\s*\\bunk\\b\\s*", "");
+			s = s.toUpperCase();
+			if( !s.isEmpty() )
+			{
+				String S[] = s.split(" ");
+				list.addAll(Arrays.asList(S));
+			}
+		}
+		if(keyWatcher)
+		{
+			s = s.replaceAll("[^\\dA-Za-z ]", "").replaceAll("\\s+", "").replaceAll("([0-9]+)", "");
+			s = s.replaceAll("\\s*\\bN\\b\\s*", "");
+			s = s.replaceAll("\\s*\\bunk\\b\\s*", "");
+			s = s.toUpperCase();
+			key=s;
+		}
 	}
 	
 	private static void countKeys(String data, String key)
@@ -70,6 +84,7 @@ public class Count
 		{
 			return;
 		}
+		
 		for( int i = 0; i<( data.length()-key.length()+1 ); i++ )
 		{
 			if( data.charAt(i) == key.charAt(0) )
