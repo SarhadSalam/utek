@@ -9,12 +9,11 @@ public class Count
 	
 	//Change the datasetPath
 	
-	
-	//private static final String datasetPath = "/home/sarhad/Projects/utek/2a/2a.in";
-	
+	private static final String datasetPath = "/home/sarhad/Projects/utek/2a/2a.in";
+	private static final String dataset = "/home/sarhad/Projects/utek/comp-pack/ptb.train.txt";
 	
 	private static int count = 0;
-	private static boolean keyWatcher=false;
+	private static boolean keyWatcher = false;
 	public static String key;
 	
 	public static void main(String[] args)
@@ -22,9 +21,8 @@ public class Count
 		try
 		{
 			
-			readFile(args[0]);
-			readFile(args[1]);
-			
+			readFile(datasetPath,true);
+			readFile(dataset, false);
 			
 		} catch( FileNotFoundException e )
 		{
@@ -33,7 +31,7 @@ public class Count
 	}
 	
 	//The following read each
-	private static void readFile(String datasetPath) throws FileNotFoundException
+	private static void readFile(String datasetPath, Boolean b) throws FileNotFoundException
 	{
 		Scanner x = new Scanner(new File(datasetPath));
 		ArrayList<String> list = new ArrayList<>();
@@ -41,25 +39,28 @@ public class Count
 		while( x.hasNextLine() )
 		{
 			String a = x.nextLine();
-			list = getCountOfLine(list, a);
+			list = getCountOfLine(list, a, b);
 		}
 	}
 	
-	private static ArrayList<String> getCountOfLine(ArrayList<String> list, String a)
+	private static ArrayList<String> getCountOfLine(ArrayList<String> list, String a, Boolean b)
 	{
-		for(int i=0; i<a.split(" ").length; i++)
+		for( int i = 0; i<a.split(" ").length; i++ )
 		{
 			list = processData(a.split(" ")[i], list);
 		}
-		for(String s: list)
+		if( key != null && b )
 		{
-			countKeys(s,key);
+			for( String s : list )
+			{
+				countKeys(s, key);
+			}
+			System.out.println(count);
 		}
-		key=null;
-		keyWatcher=false;
+		key = null;
+		keyWatcher = false;
 		list = new ArrayList<>();
-		System.out.println(count);
-		count=0;
+		count = 0;
 		return list;
 	}
 	
@@ -70,11 +71,11 @@ public class Count
 		
 		//the below regex removes characters and numbers
 		
-		if(s.equals("|"))
+		if( s.equals("|") )
 		{
 			keyWatcher = true;
 		}
-		if(!keyWatcher)
+		if( !keyWatcher )
 		{
 			s = s.replaceAll("[^\\dA-Za-z ]", "").replaceAll("\\s+", "").replaceAll("([0-9]+)", "");
 			s = s.replaceAll("\\s*\\bN\\b\\s*", "");
@@ -86,13 +87,13 @@ public class Count
 				list.addAll(Arrays.asList(S));
 			}
 		}
-		if(keyWatcher)
+		if( keyWatcher )
 		{
 			s = s.replaceAll("[^\\dA-Za-z ]", "").replaceAll("\\s+", "").replaceAll("([0-9]+)", "");
 			s = s.replaceAll("\\s*\\bN\\b\\s*", "");
 			s = s.replaceAll("\\s*\\bunk\\b\\s*", "");
 			s = s.toUpperCase();
-			key=s;
+			key = s;
 		}
 		return list;
 	}
@@ -126,7 +127,6 @@ public class Count
 				}
 			}
 		}
-		
 		
 	}
 }
