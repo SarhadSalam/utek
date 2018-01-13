@@ -6,7 +6,9 @@ import java.util.*;
  */
 public class Count
 {
-	private static final String datasetPath = "/home/sarhad/Projects/utek/comp-pack/ptb.train.txt";
+	
+	//Change the datasetPath
+//	private static final String datasetPath = "/home/sarhad/Projects/utek/train.txt";
 	
 	private static ArrayList<String> list = new ArrayList<>();
 	private static int count = 0;
@@ -15,13 +17,15 @@ public class Count
 	{
 		try
 		{
-			readFile();
+			readFile(args[0]);
 			String key = "OR";
+			
 			for( String aList : list )
 			{
 				countKeys(aList, key);
 			}
-			System.out.println(count);
+			
+			System.out.println(list);
 			
 		} catch( FileNotFoundException e )
 		{
@@ -29,11 +33,42 @@ public class Count
 		}
 	}
 	
-	private static int countKeys(String data, String key)
+	//The following read each
+	private static void readFile(String datasetPath) throws FileNotFoundException
+	{
+		Scanner x = new Scanner(new File(datasetPath));
+		while( x.hasNext() )
+		{
+			String a = x.next();
+			processData(a);
+		}
+	}
+	
+	//The below just processes the data.
+	private static void processData(String s)
+	{
+		//Process Data. Remove <unk> N non-characters, convert to uppercase. Store data
+		
+		//the below regex removes characters and numbers
+		
+		s = s.replaceAll("[^\\dA-Za-z ]", "").replaceAll("\\s+", "").replaceAll("([0-9]+)", "");
+		s = s.replaceAll("\\s*\\bN\\b\\s*", "");
+		s = s.replaceAll("\\s*\\bunk\\b\\s*", "");
+		s = s.toUpperCase();
+		if( !s.isEmpty() )
+		{
+			String S[] = s.split(" ");
+			list.addAll(Arrays.asList(S));
+		}
+		
+		
+	}
+	
+	private static void countKeys(String data, String key)
 	{
 		if( data.length()<key.length() )
 		{
-			return -1;
+			return;
 		}
 		for( int i = 0; i<( data.length()-key.length()+1 ); i++ )
 		{
@@ -58,34 +93,5 @@ public class Count
 			}
 		}
 		
-		return count;
-	}
-	
-	private static void readFile() throws FileNotFoundException
-	{
-		//Read Your File here. Use whatever helper functions you want. Pass the data line by line to processData(String s)
-		
-		Scanner x = new Scanner(new File(datasetPath));
-		while( x.hasNext() )
-		{
-			String a = x.next();
-			processData(a);
-		}
-	}
-	
-	private static void processData(String s)
-	{
-		//Process Data. Remove <unk> N non-characters, convert to uppercase. Store data
-		
-		//the below regex removes characters and numbers
-		s = s.replaceAll("\\W<unk>\\W|^<unk>\\W|\\W<unk>$", "").replaceAll("\\WN\\W|^N\\W|\\WN$", "").replaceAll("[^\\dA-Za-z ]", "").replaceAll("\\s+", " ").replaceAll("([0-9]+)", "").toUpperCase();
-		
-		String S[] = s.split(" ");
-		list.addAll(Arrays.asList(S));
-	}
-	
-	private static void writeFile()
-	{
-		//Write file here after processing the data
 	}
 }
