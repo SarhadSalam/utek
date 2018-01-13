@@ -1,3 +1,5 @@
+import java.io.*;
+import java.util.*;
 /**
  * Class Details:- Author: Sarhad User: sarhad Date: 13/01/18 Time : 12:28 PM Project Name: 2a Class Name: count
  */
@@ -12,6 +14,12 @@ public class Count
 	private static void readFile()
 	{
 		//Read Your File here. Use whatever helper functions you want. Pass the data line by line to processData(String s)
+		x = new Scanner(new File("ptb.train.txt"));
+		while(x.hasNext())
+		{
+      			String a = x.next();
+        		processData(a);
+      		}
 	}
 	
 	private static void processData(String s)
