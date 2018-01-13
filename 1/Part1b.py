@@ -40,14 +40,15 @@ def decryptb(string, key):
     return s
 
 
-word = "ALPHABETIZE! THIS!"
-key = [1,3,5]
+fileIn = open('1/1b.in', 'r')
+fileOut = open('1/1b.out', 'w')
+for line in fileIn:
+    command = line.split(' | ')
+    split = [int(x) for x in command[1].split(' ')]
+    if(command[0] == 'ENCRYPT'):
+            fileOut.write(encryptb(command[2], split))
+    elif(command[0] == 'DECRYPT'):
+            fileOut.write(decryptb(command[2], split))
+fileIn.close()
+fileOut.close()
 
-word = encryptb(word,key)
-print(word)
-word = decryptb(word,key)
-print(word)
-#word = encrypta(word, key)
-#print(word)
-#word = decrypta(word, key)
-#print(word)

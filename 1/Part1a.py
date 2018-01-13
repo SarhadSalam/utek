@@ -32,10 +32,17 @@ def decrypta(string, key):
         s += out[k]
     return s
 
-word = "ALPHABETIZE!"
-key = 3
+fileIn = open('1/1a.in', 'r')
+fileOut = open('1/1a.out', 'w')
+for line in fileIn:
+    command = line.split(' | ')
+    if(command[0] == 'ENCRYPT'):
+            fileOut.write(encrypta(command[2], int(command[1])))
+    elif(command[0] == 'DECRYPT'):
+            fileOut.write(decrypta(command[2], int(command[1])))
+fileIn.close()
+fileOut.close()
 
-word = encrypta(word, key)
-print(word)
-word = decrypta(word, key)
-print(word)
+
+
+

@@ -28,15 +28,13 @@ def decryptc(string, key):
     return s
 
 
-
-word = "HELLO WORLD!"
-key = "QWERTYUIOPASDFGHJKLZXCVBNM"
-
-word = encryptc(word,key)
-print(word)
-word = decryptc(word,key)
-print(word)
-#word = encrypta(word, key)
-#print(word)
-#word = decrypta(word, key)
-#print(word)
+fileIn = open('1/1c.in', 'r')
+fileOut = open('1/1c.out', 'w')
+for line in fileIn:
+    command = line.split(' | ')
+    if(command[0] == 'ENCRYPT'):
+            fileOut.write(encryptc(command[2], command[1]))
+    elif(command[0] == 'DECRYPT'):
+            fileOut.write(decryptc(command[2], command[1]))
+fileIn.close()
+fileOut.close()
