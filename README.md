@@ -8,4 +8,4 @@ The team members of team 4:
 2. Sarhad Maisoon Salam
 3. Shashwat Panwar
 ## Details about Waterloo
-They suck.
+They suck..
